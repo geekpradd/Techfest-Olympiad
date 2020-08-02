@@ -16,6 +16,15 @@ Future<List<dynamic>> fetch() async {
   }
 }
 
+Future<List<dynamic>> fetchQuizzes() async {
+  final response = await http.get("https://raw.githubusercontent.com/geekpradd/Techfest-Olympiad/master/lib/models/quizList.json%20");
+  if (response.statusCode == 200) {
+    return json.decode(response.body)["quizzes"];
+  } else {
+    throw Exception('Failed to Fetch Quiz Data');
+  }
+}
+
 void main() {
   runApp(MyApp());
 }
@@ -27,16 +36,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 class QuizList extends StatefulWidget {
   @override
   _QuizList createState() => _QuizList();
 }
-var data = [
-  {"name" : "CodeDecode", "hours": 3, "id": "codedecode", "description": "A coding challenge!"},
-  {"name" : "Olympiad", "hours": 2, "id": "codedecode", "description": "A coding challenge!"}];
-
-Widget _buildCard(data) => SizedBox(
+Widget _buildCard(data, BuildContext context) => SizedBox(
   child: Card(
     child: Column(
       children: [
@@ -52,6 +56,11 @@ Widget _buildCard(data) => SizedBox(
         ListTile(
           title: FlatButton(
             child: Text("Download and Begin Test"),
+            onPressed: () {
+              Navigator.push(context,
+                MaterialPageRoute(builder: (context) => HomeRoute(data["id"])),
+              );
+            },
           ),
         ),
       ],
@@ -60,33 +69,60 @@ Widget _buildCard(data) => SizedBox(
 );
 
 class _QuizList extends State<QuizList>{
+  Future< List<dynamic> > quiz_data;
+  List<dynamic> decoded_data;
+
+  @override
+  void initState() {
+    super.initState();
+    quiz_data = fetchQuizzes();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-              title: Text("Main Interface"),
+              title: Text("Available Quizzes"),
             ),
-          body: Container(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return _buildCard(data[index]);
-                  },
-                ))
-        ])
-    )
+          body: FutureBuilder<dynamic>(
+              future: quiz_data,
+              builder: (context, snapshot){
+                if (snapshot.hasData){
+                  decoded_data = snapshot.data;
+                  return getMainContainer(context);
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+
+                return CircularProgressIndicator();
+              }
+          ),
     )
     );
   }
+
+  Container getMainContainer(BuildContext context) {
+    return Container(
+        child: Column(
+            children: <Widget>[
+              Expanded(
+                  child: ListView.builder(
+                    itemCount: decoded_data.length,
+                    itemBuilder: (context, index) {
+                      return _buildCard(decoded_data[index], context);
+                    },
+                  ))
+            ])
+    );
+  }
+
 
 }
 
 
 class HomeRoute extends StatefulWidget {
+  final String id;
+  const HomeRoute(this.id);
   @override
   _HomeRoute createState() => _HomeRoute();
 }
@@ -94,9 +130,10 @@ class HomeRoute extends StatefulWidget {
 class _HomeRoute extends State<HomeRoute> {
   Future< List<dynamic> > quiz_data;
   List<dynamic> decoded_data;
-  final String id = "quizA";
+  String id;
   @override
   void initState() {
+    id = widget.id;
     super.initState();
     quiz_data = fetch();
   }

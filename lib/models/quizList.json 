@@ -1,5 +1,5 @@
 {
    "quizzes":[
-    {"name" : "CodeDecode", "Hours": 3, "id": "codedecode", "description": "A coding challenge!"},
-    {"name" : "CodeDecode", "Hours": 3, "id": "codedecode", "description": "A coding challenge!"}]
+    {"name" : "CodeDecode", "hours": 3, "id": "codedecode", "description": "A coding challenge!"},
+    {"name" : "Olympiad", "hours": 2, "id": "olympiad", "description": "A coding challenge!"}]
 }
