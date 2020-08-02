@@ -23,10 +23,68 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: HomeRoute()
+        home: QuizList()
     );
   }
 }
+
+class QuizList extends StatefulWidget {
+  @override
+  _QuizList createState() => _QuizList();
+}
+var data = [
+  {"name" : "CodeDecode", "hours": 3, "id": "codedecode", "description": "A coding challenge!"},
+  {"name" : "Olympiad", "hours": 2, "id": "codedecode", "description": "A coding challenge!"}];
+
+Widget _buildCard(data) => SizedBox(
+  child: Card(
+    child: Column(
+      children: [
+        ListTile(
+          title: Center(child:Text(data["name"],
+              style: TextStyle(fontWeight: FontWeight.w500)),),
+//          subtitle: Text('The final round of the best competition there is'),
+        ),
+        Divider(),
+        ListTile(
+          title: Center(child:Text('Duration: ${data["hours"]} Hours')),
+        ),
+        ListTile(
+          title: FlatButton(
+            child: Text("Download and Begin Test"),
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
+class _QuizList extends State<QuizList>{
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text("Main Interface"),
+            ),
+          body: Container(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return _buildCard(data[index]);
+                  },
+                ))
+        ])
+    )
+    )
+    );
+  }
+
+}
+
 
 class HomeRoute extends StatefulWidget {
   @override
