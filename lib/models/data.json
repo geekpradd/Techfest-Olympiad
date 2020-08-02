@@ -1,6 +1,6 @@
 {"quiz":[{
   "id": "1",
-  "ques": "What are you doing?",
+  "ques": "I just changed it all",
   "options": [
     "nothing",
     "why do you care?",
@@ -11,6 +11,6 @@
 },
 {
 "id": "2",
-"ques": "Wanna play?",
+"ques": "Okay",
 "questype": "fill"
 }]}
