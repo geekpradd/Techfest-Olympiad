@@ -8,8 +8,18 @@ import './models/ques.dart';
 import './Widgets/answerList.dart';
 import './Widgets/drawer.dart';
 import './Widgets/question.dart';
+import 'dart:async';
+import 'dart:convert';
 
+Future<  List<Map<String, Object> > > fetch() async {
+  final response = await http.get("https://raw.githubusercontent.com/geekpradd/Techfest-Olympiad/master/lib/models/data.json");
+
+  return json.decode(response.body)["quiz"];
+}
 class QnA extends StatefulWidget {
+  final List<Map<String, Object> > questions;
+
+  const QnA(this.questions);
   @override
   _QnAstate createState() => _QnAstate();
 }
@@ -21,7 +31,8 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
   TextEditingController _textcontroller = new TextEditingController();
   AnimationController _controller;
   Animation _animation;
-  final ques = dummyQues;
+  Future<  List<Map<String, Object> > > quiz_data;
+  var ques;
   final quesWidgetKey = GlobalKey();
   final bottomNavKey = GlobalKey();
   var ans = {};
@@ -119,6 +130,8 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    ques = widget.questions;
+    quiz_data = fetch();
     ques.shuffle();
     for (var q = 0; q < ques.length; q++) {
       ans[ques[q]['id']] = -1;

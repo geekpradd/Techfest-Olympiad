@@ -1,4 +1,4 @@
-[{
+{"quiz":[{
   "id": "1",
   "ques": "What are you doing?",
   "options": [
@@ -13,4 +13,4 @@
 "id": "2",
 "ques": "Wanna play?",
 "questype": "fill"
-}]
+}]}

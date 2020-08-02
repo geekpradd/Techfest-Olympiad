@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './qna.dart';
+import './models/ques.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,7 +21,7 @@ class HomeRoute extends StatelessWidget {
     // TODO: implement buil
     return  Scaffold(
         appBar: AppBar(
-          title: Text('Techfest Olympiad'),
+          title: Text("Main Interface"),
         ),
         body: Center(
           child: RaisedButton(
@@ -28,7 +29,7 @@ class HomeRoute extends StatelessWidget {
             onPressed: () {
               // Navigate to second route when tapped.
               Navigator.push(context,
-              MaterialPageRoute(builder: (context) => QnA()),
+              MaterialPageRoute(builder: (context) => QnA(dummyQues)),
               );
             },
           ),
@@ -39,13 +40,3 @@ class HomeRoute extends StatelessWidget {
 
 
 
-//class MyApp extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return MaterialApp(
-//      title: 'Olympiad',
-//      theme: ThemeData(),
-//      home: QnA(),
-//    );
-//  }
-//}
