@@ -1,0 +1,5 @@
+{
+   "quizzes":[
+    {"name" : "CodeDecode", "Hours": 3, "id": "codedecode", "description": "A coding challenge!"},
+    {"name" : "CodeDecode", "Hours": 3, "id": "codedecode", "description": "A coding challenge!"}]
+}

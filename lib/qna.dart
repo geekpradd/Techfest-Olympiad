@@ -7,11 +7,16 @@ import './models/ques.dart';
 import './Widgets/answerList.dart';
 import './Widgets/drawer.dart';
 import './Widgets/question.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 
 class QnA extends StatefulWidget {
   final List<dynamic> questions;
+  final String quizId;
 
-  const QnA(this.questions);
+  const QnA(this.questions, this.quizId);
   @override
   _QnAstate createState() => _QnAstate();
 }
@@ -25,6 +30,7 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
   Animation _animation;
 
   var ques;
+  var quizId;
   final quesWidgetKey = GlobalKey();
   final bottomNavKey = GlobalKey();
   var ans = {};
@@ -87,10 +93,20 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
     );
   }
 
+  Future<http.Response> submitData() {
+    return http.post(
+      'https://jsonplaceholder.typicode.com/albums',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(ans),
+    );
+  }
   void sendans() {
     submit = true;
+    ans["quizID"] = quizId;
+    submitData();
     print(ans);
-    print('Bye');
     Navigator.pop(baseContext);
   }
 
@@ -123,7 +139,7 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     ques = widget.questions;
-
+    quizId = widget.quizId;
     ques.shuffle();
     for (var q = 0; q < ques.length; q++) {
       ans[ques[q]['id']] = -1;

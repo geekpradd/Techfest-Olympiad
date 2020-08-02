@@ -36,7 +36,7 @@ class HomeRoute extends StatefulWidget {
 class _HomeRoute extends State<HomeRoute> {
   Future< List<dynamic> > quiz_data;
   List<dynamic> decoded_data;
-
+  final String id = "quizA";
   @override
   void initState() {
     super.initState();
@@ -74,7 +74,7 @@ class _HomeRoute extends State<HomeRoute> {
         onPressed: () {
           // Navigate to second route when tapped.
           Navigator.push(context,
-            MaterialPageRoute(builder: (context) => QnA(decoded_data)),
+            MaterialPageRoute(builder: (context) => QnA(decoded_data, id)),
           );
         }
         );
