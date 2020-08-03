@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 
 class QnA extends StatefulWidget {
   final List<dynamic> questions;
-  final String quizId;
+  final int quizId;
 
   const QnA(this.questions, this.quizId);
   @override

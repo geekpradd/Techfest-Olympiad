@@ -6,20 +6,22 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<List<dynamic>> fetch() async {
-  final response = await http.get("https://raw.githubusercontent.com/geekpradd/Techfest-Olympiad/master/lib/models/data.json");
+var baseUrl = "http://django-env.eba-am2ftkcp.us-east-1.elasticbeanstalk.com/api/";
+
+Future<List<dynamic>> fetch(String quizId) async {
+  final response = await http.get(baseUrl + quizId + "/?format=json");
 
   if (response.statusCode == 200) {
-    return json.decode(response.body)["quiz"];
+    return json.decode(response.body)[0]["questions"];
   } else {
     throw Exception('Failed to Fetch Quiz Data');
   }
 }
 
 Future<List<dynamic>> fetchQuizzes() async {
-  final response = await http.get("https://raw.githubusercontent.com/geekpradd/Techfest-Olympiad/master/lib/models/quizList.json%20");
+  final response = await http.get(baseUrl + "quiz/?format=json");
   if (response.statusCode == 200) {
-    return json.decode(response.body)["quizzes"];
+    return json.decode(response.body);
   } else {
     throw Exception('Failed to Fetch Quiz Data');
   }
@@ -121,21 +123,21 @@ class _QuizList extends State<QuizList>{
 
 
 class HomeRoute extends StatefulWidget {
-  final String id;
+  final int id;
   const HomeRoute(this.id);
   @override
   _HomeRoute createState() => _HomeRoute();
 }
 
 class _HomeRoute extends State<HomeRoute> {
-  Future< List<dynamic> > quiz_data;
+  Future< List<dynamic> > question_data;
   List<dynamic> decoded_data;
-  String id;
+  int id;
   @override
   void initState() {
     id = widget.id;
     super.initState();
-    quiz_data = fetch();
+    question_data = fetch(id.toString());
   }
 
   @override
