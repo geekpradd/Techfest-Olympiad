@@ -136,7 +136,7 @@ Widget _buildCard(data, BuildContext context) => SizedBox(
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => HomeRoute(data["id"])),
+                            builder: (context) => HomeRoute(data["id"], data["hours"])),
                       );
                     },
                   ),
@@ -150,7 +150,8 @@ Widget _buildCard(data, BuildContext context) => SizedBox(
 
 class HomeRoute extends StatefulWidget {
   final int id;
-  const HomeRoute(this.id);
+  final int hours;
+  const HomeRoute(this.id, this.hours);
   @override
   _HomeRoute createState() => _HomeRoute();
 }
@@ -158,10 +159,12 @@ class HomeRoute extends StatefulWidget {
 class _HomeRoute extends State<HomeRoute> {
   Future<List<dynamic>> question_data;
   List<dynamic> decoded_data;
+  int hours;
   int id;
   @override
   void initState() {
     id = widget.id;
+    hours = widget.hours;
     super.initState();
     question_data = fetch(id.toString());
   }
@@ -216,7 +219,7 @@ class _HomeRoute extends State<HomeRoute> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => QnA(convert(decoded_data), id)),
+                builder: (context) => QnA(convert(decoded_data), id, hours)),
           );
         });
   }

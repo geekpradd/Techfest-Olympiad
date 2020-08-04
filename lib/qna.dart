@@ -15,14 +15,16 @@ import './models/ans.dart';
 class QnA extends StatefulWidget {
   final List<dynamic> questions;
   final int quizId;
+  final int hours;
 
-  const QnA(this.questions, this.quizId);
+  const QnA(this.questions, this.quizId, this.hours);
   @override
   _QnAstate createState() => _QnAstate();
 }
 
 class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
-  var timer = Duration(hours: 1);
+  var timer;
+
   bool submit = false;
   BuildContext baseContext;
   TextEditingController _textcontroller = new TextEditingController();
@@ -96,7 +98,7 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
 
   Future<http.Response> submitData() {
     return http.post(
-      'https://jsonplaceholder.typicode.com/albums',
+      'http://django-env.eba-am2ftkcp.us-east-1.elasticbeanstalk.com/submit/' + quizId.toString() + "/",
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -112,6 +114,14 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
   void sendans() {
     ans["quizId"] = quizId;
     submit = true;
+    var data = jsonEncode(Map.from(ans.map((key, value) {
+      return MapEntry(
+        key.toString(),
+        value,
+      );
+    })));
+    print (ans);
+    print (data);
     submitData();
     Fluttertoast.showToast(
       msg: "Submitted Successfully",
@@ -150,6 +160,8 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    timer = Duration(hours: widget.hours);
+    print (widget.hours);
     ques = widget.questions;
     quizId = widget.quizId;
     ques.shuffle();
