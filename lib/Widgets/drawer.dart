@@ -57,7 +57,10 @@ class MainDrawer extends StatelessWidget {
                           FlatButton(
                             color: Colors.blue,
                             padding: EdgeInsets.all(10),
-                            onPressed: () => changeIndex(numOfQues),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              changeIndex(numOfQues);
+                            },
                             child: Text(
                               'Submit',
                               style: GoogleFonts.quando(
@@ -70,7 +73,10 @@ class MainDrawer extends StatelessWidget {
                           FlatButton(
                             color: Colors.red,
                             padding: EdgeInsets.all(10),
-                            onPressed: () => changeIndex(-10),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              changeIndex(-10);
+                            },
                             child: Text(
                               'Quit',
                               style: GoogleFonts.quando(

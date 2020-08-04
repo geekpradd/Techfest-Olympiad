@@ -81,10 +81,11 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
             FlatButton(
               child: const Text('Yes'),
               onPressed: () {
-                ans = {};
+                for (var q = 0; q < ques.length; q++) {
+                  ans[ques[q]['id']] = -1;
+                }
                 Navigator.pop(context);
                 sendans();
-                Navigator.pop(context);
               },
             )
           ],

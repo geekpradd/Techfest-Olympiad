@@ -213,7 +213,7 @@ class _HomeRoute extends State<HomeRoute> {
         child: Text('Begin Test'),
         onPressed: () {
           // Navigate to second route when tapped.
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => QnA(convert(decoded_data), id)),
