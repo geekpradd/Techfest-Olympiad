@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 
 class AnswerList extends StatelessWidget {
   final answer;
@@ -26,6 +27,8 @@ class AnswerList extends StatelessWidget {
                   color: Colors.grey,
                 )),
           child: FlatButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             padding: EdgeInsets.all(0),
             child: IntrinsicHeight(
               child: Row(
@@ -55,8 +58,15 @@ class AnswerList extends StatelessWidget {
                         vertical: 15,
                         horizontal: 10,
                       ),
-                      child: Text(
-                        answer[index],
+                      child: TeXView(
+                        renderingEngine: TeXViewRenderingEngine.katex(),
+                        child: TeXViewInkWell(
+                            id: 'id_1',
+                            child: TeXViewDocument(answer[index]),
+                            onTap: (_) => click(index),
+                            rippleEffect: false),
+
+                        // answer[index],
                       ),
                     ),
                   )

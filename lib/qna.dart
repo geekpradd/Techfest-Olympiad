@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './Widgets/timer.dart';
 import './Widgets/fillInBlank.dart';
-import './models/ques.dart';
 import './Widgets/answerList.dart';
 import './Widgets/drawer.dart';
 import './Widgets/question.dart';
@@ -11,6 +10,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import './models/ans.dart';
 
 class QnA extends StatefulWidget {
   final List<dynamic> questions;
@@ -99,14 +99,25 @@ class _QnAstate extends State<QnA> with SingleTickerProviderStateMixin {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(ans),
+      body: jsonEncode(Map.from(ans.map((key, value) {
+        return MapEntry(
+          key.toString(),
+          value,
+        );
+      }))),
     );
   }
+
   void sendans() {
+    ans["quizId"] = quizId;
     submit = true;
-    ans["quizID"] = quizId;
     submitData();
-    print(ans);
+    Fluttertoast.showToast(
+      msg: "Submitted Successfully",
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Colors.grey[800],
+      textColor: Colors.white,
+    );
     Navigator.pop(baseContext);
   }
 

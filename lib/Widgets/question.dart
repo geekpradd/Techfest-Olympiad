@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Question extends StatelessWidget {
@@ -32,7 +33,11 @@ class Question extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                child: Text(qText),
+                child: TeXView(
+                  renderingEngine: TeXViewRenderingEngine.katex(),
+                  child: TeXViewDocument(qText),
+                  // qText
+                ),
                 padding: EdgeInsets.symmetric(
                   vertical: 20,
                   horizontal: 30,
